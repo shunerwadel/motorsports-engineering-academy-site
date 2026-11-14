@@ -1,51 +1,40 @@
-<!-- Just fill in the brackets -->
-# [PROJECT NAME] | [SLOGAN]
+# Motorsports Engineering Academy — Course Site
 
-[![release](https://img.shields.io/badge/release-v0.0-red.svg?style=flat-square)]()
+Landing page for the **Race Engineering Course**: a 4-week high school masterclass in vehicle dynamics, simulation, data acquisition, and performance analysis.
 
-This is a basic blank README for new projects.
+## Local development
 
-Development
------------
-[COMPANY] | [SLOGAN]
+```bash
+npm install
+npm run dev
+```
 
-- Website: ([COMPANY WEBSITE](#))
-- Developer: [DEVELOPER NAME]
+Open the URL Vite prints (default `http://localhost:5173`).
 
-Server information:
+- Edit copy in `index.html`
+- Edit look-and-feel in `src/styles.css`
+- Notify-form behavior lives in `src/main.js`
 
-    NS1
-    NS2
-    IP: [ADDRESS]
+Brand assets are in `public/` (logo). Flyer and source docs used for content are under `design-ref/` for reference only.
 
-Global DNS:
+## Notify form (preview)
 
-- [DOMAIN]
+While iterating locally, email signups are stored in the browser via `localStorage` under `mea-waitlist`.
 
-Features
---------
+In the browser console:
 
-- [FEATURE 1]
-- [FEATURE 2]
-- [FEATURE 3]
+```js
+MEA.getWaitlist()
+MEA.clearWaitlist()
+```
 
-Content management system
--------------------------
+Before public launch, replace this with a real email/CRM integration and add online registration + tuition payment.
 
-- [CMS NAME]
+## Production build
 
-Deployment
-----------
+```bash
+npm run build
+npm run preview
+```
 
-- GIT/FTP
-     - release -> live
-
-Contribute or Support
----------------------
-
-If you are having issues, please email the webmaster [NAME (AND ADD EMAIL =>)](mailto:#).
-
-License
--------
-
-[![License: CC BY 4.0](https://licensebuttons.net/l/by/4.0/80x15.png)](http://creativecommons.org/licenses/by/4.0/)
+Static output is written to `dist/`.
