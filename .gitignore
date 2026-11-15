@@ -20,3 +20,4 @@ dist/
 
 # Local design references (optional; keep logo in public/)
 design-ref/
+.vite/
