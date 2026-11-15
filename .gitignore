@@ -10,3 +10,13 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+# Dependencies & build
+node_modules/
+dist/
+.DS_Store
+*.log
+.env
+.env.*
+
+# Local design references (optional; keep logo in public/)
+design-ref/
