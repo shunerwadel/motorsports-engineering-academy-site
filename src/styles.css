@@ -266,6 +266,7 @@ p {
   align-items: center;
   gap: 0.55rem;
   margin-bottom: 1rem;
+  margin-top: 1.5rem;
   color: var(--red);
   font-family: var(--font-display);
   font-size: 1rem;
@@ -274,9 +275,10 @@ p {
   text-transform: uppercase;
 }
 
-.eyebrow::before {
+.eyebrow::before,
+.eyebrow::after {
   content: "";
-  width: 1.5rem;
+  width: 2rem;
   height: 3px;
   background: var(--red);
 }
@@ -286,7 +288,7 @@ p {
   color: var(--navy);
   font-size: clamp(2.4rem, 7vw, 4.4rem);
   font-weight: 800;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.6rem;
 }
 
 .course-title {
