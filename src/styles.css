@@ -224,37 +224,6 @@ p {
   animation: circuit-drift 28s linear infinite;
 }
 
-.stripe {
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  background:
-    repeating-linear-gradient(
-      -45deg,
-      var(--navy) 0 14px,
-      var(--red) 14px 28px,
-      transparent 28px 42px
-    );
-}
-
-.stripe-tl {
-  top: -40px;
-  left: -50px;
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-  opacity: 0.92;
-  animation: stripe-in 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.stripe-tr {
-  top: -30px;
-  right: -60px;
-  width: 180px;
-  height: 180px;
-  clip-path: polygon(100% 0, 100% 100%, 0 0);
-  opacity: 0.85;
-  animation: stripe-in 900ms 120ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
 .hero-grid {
   display: grid;
   gap: 2rem;
@@ -266,6 +235,7 @@ p {
   align-items: center;
   gap: 0.55rem;
   margin-bottom: 1rem;
+  margin-top: 1.5rem;
   color: var(--red);
   font-family: var(--font-display);
   font-size: 1rem;
@@ -274,9 +244,10 @@ p {
   text-transform: uppercase;
 }
 
-.eyebrow::before {
+.eyebrow::before,
+.eyebrow::after {
   content: "";
-  width: 1.5rem;
+  width: 2rem;
   height: 3px;
   background: var(--red);
 }
@@ -286,7 +257,7 @@ p {
   color: var(--navy);
   font-size: clamp(2.4rem, 7vw, 4.4rem);
   font-weight: 800;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.6rem;
 }
 
 .course-title {
@@ -829,17 +800,6 @@ p {
   }
 }
 
-@keyframes stripe-in {
-  from {
-    opacity: 0;
-    transform: translate(-12px, -12px);
-  }
-  to {
-    opacity: 0.92;
-    transform: none;
-  }
-}
-
 @keyframes circuit-drift {
   from {
     background-position: 0 0, 0 0, 0 0, 0 0;
@@ -855,9 +815,7 @@ p {
   }
 
   .circuit-layer,
-  .hero-logo,
-  .stripe-tl,
-  .stripe-tr {
+  .hero-logo {
     animation: none;
   }
 
