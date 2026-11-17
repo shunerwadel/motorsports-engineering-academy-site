@@ -628,28 +628,6 @@ p {
 }
 
 /* Notify */
-.notify {
-  position: relative;
-  overflow: hidden;
-}
-
-.notify::before {
-  content: "";
-  position: absolute;
-  inset: auto -20px -80px auto;
-  width: 240px;
-  height: 240px;
-  background:
-    repeating-linear-gradient(
-      -45deg,
-      var(--navy) 0 12px,
-      var(--red) 12px 24px,
-      transparent 24px 36px
-    );
-  opacity: 0.12;
-  pointer-events: none;
-}
-
 .notify-layout {
   display: grid;
   gap: 2rem;
