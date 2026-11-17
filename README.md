@@ -19,9 +19,11 @@ Brand assets are in `public/` (logo). Flyer and source docs used for content are
 
 ## Notify form
 
-The Notify Me form posts signups to [FormSubmit](https://formsubmit.co) and emails them to `scottyhunerwadel@gmail.com`.
+Signups are emailed through [Formspree](https://formspree.io) to the inbox configured on that form (intended: `scottyhunerwadel@gmail.com`).
 
-**First-time activation:** the first live submission sends FormSubmit a confirmation email to that Gmail address. Open it and click the confirmation link once; later signups then deliver automatically.
+1. Create a free form at https://formspree.io and point it at that Gmail address.
+2. Copy the form id from the endpoint (`https://formspree.io/f/xxxxxx` → `xxxxxx`).
+3. Paste it into `FORMSPREE_FORM_ID` in `src/main.js`.
 
 Online registration + tuition payment still need to be added before launch.
 

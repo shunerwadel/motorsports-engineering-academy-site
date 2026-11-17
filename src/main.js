@@ -1,5 +1,7 @@
-const NOTIFY_ENDPOINT =
-  "https://formsubmit.co/ajax/scottyhunerwadel@gmail.com";
+// Formspree form ID from https://formspree.io (Dashboard → form → endpoint).
+// Example endpoint: https://formspree.io/f/xpwzyabc → use "xpwzyabc"
+const FORMSPREE_FORM_ID = "REPLACE_WITH_FORMSPREE_FORM_ID";
+const NOTIFY_ENDPOINT = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
 
 const header = document.querySelector(".site-header");
 const toggle = document.querySelector(".nav-toggle");
@@ -69,6 +71,12 @@ function setSubmitting(isSubmitting) {
   submitButton.textContent = isSubmitting ? "Sending…" : "Notify Me";
 }
 
+function isConfigured() {
+  return Boolean(
+    FORMSPREE_FORM_ID && FORMSPREE_FORM_ID !== "REPLACE_WITH_FORMSPREE_FORM_ID"
+  );
+}
+
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = new FormData(form);
@@ -95,6 +103,14 @@ form?.addEventListener("submit", async (event) => {
     return;
   }
 
+  if (!isConfigured()) {
+    showStatus(
+      "Email delivery is not configured yet. Please try again after setup is finished.",
+      true
+    );
+    return;
+  }
+
   setSubmitting(true);
   showStatus("Sending your signup…");
 
@@ -111,15 +127,20 @@ form?.addEventListener("submit", async (event) => {
         student: student || "(not provided)",
         notes: notes || "(none)",
         _subject: "New Race Engineering Course notify signup",
-        _template: "table",
-        _captcha: "false",
+        _replyto: email,
       }),
     });
 
     const result = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(result.message || "Unable to send signup.");
+      const detail =
+        result.errors?.[0]?.message ||
+        result.error ||
+        result.detail ||
+        result.message ||
+        `Unable to send signup (${response.status}).`;
+      throw new Error(detail);
     }
 
     form.reset();
