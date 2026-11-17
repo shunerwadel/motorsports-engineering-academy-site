@@ -641,6 +641,7 @@ p {
 }
 
 .notify-form {
+  position: relative;
   background: white;
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
@@ -689,9 +690,25 @@ p {
   border-color: var(--red);
 }
 
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .form-note {
   font-size: 0.86rem;
   color: var(--slate-soft);
+}
+
+.notify-form .btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
 }
 
 .form-status {

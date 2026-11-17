@@ -1,10 +1,12 @@
-const STORAGE_KEY = "mea-waitlist";
+const NOTIFY_ENDPOINT =
+  "https://formsubmit.co/ajax/scottyhunerwadel@gmail.com";
 
 const header = document.querySelector(".site-header");
 const toggle = document.querySelector(".nav-toggle");
 const mobileNav = document.querySelector("#mobile-nav");
 const form = document.querySelector("#notify-form");
 const statusEl = document.querySelector("#form-status");
+const submitButton = form?.querySelector('button[type="submit"]');
 
 function setMobileNav(open) {
   if (!toggle || !mobileNav) return;
@@ -54,19 +56,6 @@ if ("IntersectionObserver" in window) {
   animated.forEach((el) => el.classList.add("is-visible"));
 }
 
-function readWaitlist() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeWaitlist(entries) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-}
-
 function showStatus(message, isError = false) {
   if (!statusEl) return;
   statusEl.hidden = false;
@@ -74,13 +63,20 @@ function showStatus(message, isError = false) {
   statusEl.classList.toggle("error", isError);
 }
 
-form?.addEventListener("submit", (event) => {
+function setSubmitting(isSubmitting) {
+  if (!submitButton) return;
+  submitButton.disabled = isSubmitting;
+  submitButton.textContent = isSubmitting ? "Sending…" : "Notify Me";
+}
+
+form?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = new FormData(form);
   const name = String(data.get("name") || "").trim();
   const email = String(data.get("email") || "").trim();
   const student = String(data.get("student") || "").trim();
   const notes = String(data.get("notes") || "").trim();
+  const honeypot = String(data.get("_gotcha") || "").trim();
 
   const nameInput = form.querySelector("#name");
   const emailInput = form.querySelector("#email");
@@ -92,41 +88,53 @@ form?.addEventListener("submit", (event) => {
     return;
   }
 
-  const entries = readWaitlist();
-  const existing = entries.find(
-    (entry) => entry.email.toLowerCase() === email.toLowerCase()
-  );
-
-  const payload = {
-    name,
-    email,
-    student,
-    notes,
-    createdAt: new Date().toISOString(),
-  };
-
-  if (existing) {
-    Object.assign(existing, payload);
-  } else {
-    entries.push(payload);
+  // Bot trap — silently succeed without sending.
+  if (honeypot) {
+    form.reset();
+    showStatus("You are on the list. We will email you when registration opens.");
+    return;
   }
 
-  writeWaitlist(entries);
-  form.reset();
-  nameInput?.classList.remove("invalid");
-  emailInput?.classList.remove("invalid");
-  showStatus(
-    existing
-      ? "You are already on the list — we updated your details."
-      : "You are on the list. We will email you when registration opens."
-  );
-});
+  setSubmitting(true);
+  showStatus("Sending your signup…");
 
-// Helpful during local iteration: expose waitlist in the console.
-window.MEA = {
-  getWaitlist: readWaitlist,
-  clearWaitlist() {
-    localStorage.removeItem(STORAGE_KEY);
-    return [];
-  },
-};
+  try {
+    const response = await fetch(NOTIFY_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        student: student || "(not provided)",
+        notes: notes || "(none)",
+        _subject: "New Race Engineering Course notify signup",
+        _template: "table",
+        _captcha: "false",
+      }),
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(result.message || "Unable to send signup.");
+    }
+
+    form.reset();
+    nameInput?.classList.remove("invalid");
+    emailInput?.classList.remove("invalid");
+    showStatus(
+      "You are on the list. We will email you when registration opens."
+    );
+  } catch (error) {
+    console.error(error);
+    showStatus(
+      "Something went wrong sending your signup. Please try again in a moment.",
+      true
+    );
+  } finally {
+    setSubmitting(false);
+  }
+});

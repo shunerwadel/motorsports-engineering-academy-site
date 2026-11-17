@@ -17,18 +17,13 @@ Open the URL Vite prints (default `http://localhost:5173`).
 
 Brand assets are in `public/` (logo). Flyer and source docs used for content are under `design-ref/` for reference only.
 
-## Notify form (preview)
+## Notify form
 
-While iterating locally, email signups are stored in the browser via `localStorage` under `mea-waitlist`.
+The Notify Me form posts signups to [FormSubmit](https://formsubmit.co) and emails them to `scottyhunerwadel@gmail.com`.
 
-In the browser console:
+**First-time activation:** the first live submission sends FormSubmit a confirmation email to that Gmail address. Open it and click the confirmation link once; later signups then deliver automatically.
 
-```js
-MEA.getWaitlist()
-MEA.clearWaitlist()
-```
-
-Before public launch, replace this with a real email/CRM integration and add online registration + tuition payment.
+Online registration + tuition payment still need to be added before launch.
 
 ## Production build
 
