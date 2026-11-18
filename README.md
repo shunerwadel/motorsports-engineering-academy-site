@@ -17,18 +17,15 @@ Open the URL Vite prints (default `http://localhost:5173`).
 
 Brand assets are in `public/` (logo). Flyer and source docs used for content are under `design-ref/` for reference only.
 
-## Notify form (preview)
+## Notify form
 
-While iterating locally, email signups are stored in the browser via `localStorage` under `mea-waitlist`.
+Signups are emailed through [Formspree](https://formspree.io) to the inbox configured on that form (intended: `scottyhunerwadel@gmail.com`).
 
-In the browser console:
+1. Create a free form at https://formspree.io and point it at that Gmail address.
+2. Copy the form id from the endpoint (`https://formspree.io/f/xxxxxx` → `xxxxxx`).
+3. Paste it into `FORMSPREE_FORM_ID` in `src/main.js`.
 
-```js
-MEA.getWaitlist()
-MEA.clearWaitlist()
-```
-
-Before public launch, replace this with a real email/CRM integration and add online registration + tuition payment.
+Online registration + tuition payment still need to be added before launch.
 
 ## Production build
 

@@ -325,10 +325,18 @@
               <label for="notes">Anything we should know? <span class="optional">(optional)</span></label>
               <textarea id="notes" name="notes" rows="3" placeholder="Grade level, racing interest, questions…"></textarea>
             </div>
+            <input
+              class="honeypot"
+              type="text"
+              name="_gotcha"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
             <button class="btn btn-primary btn-block" type="submit">Notify Me</button>
             <p class="form-note">
-              Local preview stores signups in this browser only. We will wire email
-              delivery and online registration / payment before launch.
+              We’ll email you when registration opens. Online enrollment &amp;
+              payment are coming soon.
             </p>
             <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
           </form>
