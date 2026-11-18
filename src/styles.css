@@ -637,6 +637,10 @@ p {
   object-fit: cover;
 }
 
+.mentor-carousel-slide--portrait img {
+  object-position: 70% 18%;
+}
+
 .mentor-carousel-controls {
   display: flex;
   align-items: center;
