@@ -159,3 +159,98 @@ form?.addEventListener("submit", async (event) => {
     setSubmitting(false);
   }
 });
+
+function initMentorCarousel(root) {
+  const slides = Array.from(root.querySelectorAll("[data-slide]"));
+  const dotsHost = root.querySelector("[data-carousel-dots]");
+  const prevBtn = root.querySelector("[data-carousel-prev]");
+  const nextBtn = root.querySelector("[data-carousel-next]");
+  if (slides.length < 2) return;
+
+  let index = slides.findIndex((slide) => slide.classList.contains("is-active"));
+  if (index < 0) index = 0;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const intervalMs = 4500;
+  let timer = null;
+
+  const dots = slides.map((_, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "mentor-carousel-dot";
+    dot.setAttribute("aria-label", `Show photo ${i + 1}`);
+    dot.addEventListener("click", () => goTo(i, true));
+    dotsHost?.appendChild(dot);
+    return dot;
+  });
+
+  function render() {
+    slides.forEach((slide, i) => {
+      const active = i === index;
+      slide.classList.toggle("is-active", active);
+      slide.setAttribute("aria-hidden", active ? "false" : "true");
+    });
+    dots.forEach((dot, i) => {
+      const active = i === index;
+      dot.classList.toggle("is-active", active);
+      dot.setAttribute("aria-current", active ? "true" : "false");
+    });
+  }
+
+  function goTo(nextIndex, userDriven = false) {
+    index = (nextIndex + slides.length) % slides.length;
+    render();
+    if (userDriven) restart();
+  }
+
+  function next() {
+    goTo(index + 1);
+  }
+
+  function prev() {
+    goTo(index - 1);
+  }
+
+  function stop() {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function start() {
+    if (reduceMotion || timer) return;
+    timer = window.setInterval(next, intervalMs);
+  }
+
+  function restart() {
+    stop();
+    start();
+  }
+
+  prevBtn?.addEventListener("click", () => {
+    prev();
+    restart();
+  });
+  nextBtn?.addEventListener("click", () => {
+    next();
+    restart();
+  });
+
+  root.addEventListener("mouseenter", stop);
+  root.addEventListener("mouseleave", start);
+  root.addEventListener("focusin", stop);
+  root.addEventListener("focusout", (event) => {
+    if (!root.contains(event.relatedTarget)) start();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  render();
+  start();
+}
+
+document.querySelectorAll("[data-carousel]").forEach(initMentorCarousel);
