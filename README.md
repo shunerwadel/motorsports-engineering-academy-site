@@ -35,3 +35,13 @@ npm run preview
 ```
 
 Static output is written to `dist/`.
+
+## GitHub Pages
+
+The site deploys automatically on every push to `main` via `.github/workflows/deploy-pages.yml`.
+
+1. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Merge to `main` (or run the workflow manually under **Actions**).
+3. Site URL: `https://shunerwadel.github.io/motorsports-engineering-academy-site/`
+
+The workflow sets `BASE_PATH` so asset URLs work under the `/motorsports-engineering-academy-site/` project path.
