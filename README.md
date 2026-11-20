@@ -15,7 +15,10 @@ Open the URL Vite prints (default `http://localhost:5173`).
 - Edit look-and-feel in `src/styles.css`
 - Notify-form behavior lives in `src/main.js`
 
-Brand assets are in `public/` (logo). Flyer and source docs used for content are under `design-ref/` for reference only.
+Brand assets are in `public/` (logo and a site QR code at `public/qr-code.png`). Flyer and source docs used for content are under `design-ref/` for reference only.
+
+The QR code points to the live site:
+`https://shunerwadel.github.io/motorsports-engineering-academy-site/`
 
 ## Notify form
 
